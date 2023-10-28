@@ -5,8 +5,6 @@ import NoteDetection from './_components/note-detection';
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import styles from "./index.module.css";
-import '@radix-ui/themes/styles.css';
-
 
 export default async function Home() {
   // const hello = await api.post.hello.query({ text: "from tRPC" });
@@ -15,16 +13,7 @@ export default async function Home() {
   return (
     <main className={styles.main}>
       <NoteDetection />
-      <div className={styles.imageContainer}>
-      <Image className={styles.fretboardImage}
-        src="/assets/images/guitarFretboardNotesDiagram.png"
-        style={{ width: '100%', height: 'auto' }}
-        alt="Guitar Diagram"
-        width={1000}
-        height={500}
-        priority={true}
-      />
-      </div>
+      
       {/* <AudioAnalyzer /> */}
       {/* <div className={styles.container}>
         <h1 className={styles.title}>
@@ -77,24 +66,3 @@ export default async function Home() {
     </main>
   );
 }
-
-// async function CrudShowcase() {
-//   const session = await getServerAuthSession();
-//   if (!session?.user) return null;
-
-//   const latestPost = await api.post.getLatest.query();
-
-//   return (
-//     <div className={styles.showcaseContainer}>
-//       {latestPost ? (
-//         <p className={styles.showcaseText}>
-//           Your most recent post: {latestPost.name}
-//         </p>
-//       ) : (
-//         <p className={styles.showcaseText}>You have no posts yet.</p>
-//       )}
-
-//       <CreatePost />
-//     </div>
-//   );
-// }

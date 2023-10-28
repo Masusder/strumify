@@ -4,10 +4,9 @@ import { Inter } from "next/font/google";
 import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { ThemeProvider } from "~/components/Theme/theme-provider";
 
-import { Theme } from '@radix-ui/themes';
-
-import Header from "./_components/Main/Header/header";
+import { Header } from "~/components/Layout";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,7 +14,7 @@ const inter = Inter({
 
 export const metadata = {
   title: "Strumify",
-  description: "",
+  description: "Strumify - your ultimate guitar companion for creating and sharing tabs, chords, and melodies, making music creation a breeze for guitar enthusiasts of all levels.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
@@ -26,12 +25,17 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="en">
-      <body className={inter.className + " dark"}>
+      <body className={inter.className}>
         <TRPCReactProvider headers={headers()}>
-          <Theme appearance="inherit" accentColor="tomato" panelBackground="solid" radius="large">
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
             <Header />
             {children}
-          </Theme>
+          </ThemeProvider>
         </TRPCReactProvider>
       </body>
     </html>
