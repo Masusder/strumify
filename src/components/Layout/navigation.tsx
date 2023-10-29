@@ -12,12 +12,12 @@ import {
   NavigationMenuTrigger,
 } from "~/components/ui/navigation-menu"
 
-export function NavigationMenuDemo() {
+export function NavigationMenuCustom() {
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+          <NavigationMenuTrigger>Get started</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
@@ -37,7 +37,7 @@ export function NavigationMenuDemo() {
                 </NavigationMenuLink>
               </li>
               <ListItem href="/tuner" title="Guitar Tuner">
-                A handy tool for tuning your guitar strings with precision.
+                A handy tool for tuning your instrument with precision.
               </ListItem>
               <ListItem href="/docs/installation" title="Installation">
                 How to install dependencies and structure your app.

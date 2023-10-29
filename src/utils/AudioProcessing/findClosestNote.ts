@@ -1,10 +1,29 @@
 import { noteStrings, noteFrequencies } from "~/constants/noteData";
 
+export type ClosestNoteData = {
+    closestNoteIndex: number,
+    noteName: string
+}
+
 // Function to find the closest note for any pitch
-export function findClosestNote(pitch: number): string {
+export function findClosestNote(pitch: number, currentTuning: string[], currentTuningFrequency: number[]): ClosestNoteData {
     let closestNoteIndex: number = 0;
+    let currentClosestNoteIndex: number = 0;
     let smallestDifference: number = Math.abs(pitch - noteFrequencies[0]!);
+
+    let currentSmallestDifferent: number = Math.abs(pitch - currentTuningFrequency[0]!)
     let closestOctave: number = 0;
+
+    for (let i = 0; i < currentTuning.length; i++) {
+        const noteFrequency = currentTuningFrequency[i];
+        if (noteFrequency) {
+            const difference: number = Math.abs(pitch - noteFrequency);
+            if (difference < currentSmallestDifferent) {
+                currentSmallestDifferent = difference;
+                currentClosestNoteIndex = i;
+            }
+        }
+    }
 
     // Check each octave up to the 8th
     for (let octave = 0; octave <= 8; octave++) {
@@ -25,6 +44,9 @@ export function findClosestNote(pitch: number): string {
         }
     }
 
+
+    const closestNoteData: ClosestNoteData = { closestNoteIndex: currentClosestNoteIndex, noteName: `${noteStrings[closestNoteIndex]}${closestOctave}` }
+
     // Returns closest note and octave
-    return `${noteStrings[closestNoteIndex]}${closestOctave}`;
+    return closestNoteData;
 }

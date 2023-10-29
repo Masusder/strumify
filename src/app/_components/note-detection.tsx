@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import { PitchDetector } from 'pitchy';
-import { findClosestNote } from '~/utils/AudioProcessing';
+import { ClosestNoteData, findClosestNote } from '~/utils/AudioProcessing';
 import { inTuneDetection } from '~/utils/AudioProcessing/inTuneDetection';
 import styles from './note-detection.module.css';
 
@@ -36,17 +36,15 @@ const NoteDetection: React.FC = () => {
         setAudioClarity(clarity);
 
         if (clarity > clarityThreshold) {
-          const note: string = findClosestNote(pitch);
+          const noteData: ClosestNoteData = findClosestNote(pitch, [], []);
 
           setDetectedPitch(pitch);
-          setDetectedNote(note);
+          setDetectedNote(noteData.noteName);
 
-          console.log('Detected note:', note);
+          console.log('Detected note:', noteData.noteName);
           console.log('Detected pitch:', pitch);
           console.log('Clarity:', clarity);
 
-          const tuneNote = inTuneDetection(pitch);
-          console.log('tuneNote', tuneNote)
         } else {
           setDetectedPitch(0);
           setDetectedNote("");
@@ -68,6 +66,13 @@ const NoteDetection: React.FC = () => {
       }
 
       const analyserNode = audioContext.createAnalyser();
+      const isContextSecure = !!navigator.mediaDevices;
+      if (!isContextSecure) {
+        console.log('You need to use HTTPS in URL for audio detection to work.');
+        alert("Audio detection is only available in secure context (HTTPS).");
+        setIsPitchDetectionRunning(false);
+        return;
+      }
 
       navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
         audioContext.createMediaStreamSource(stream).connect(analyserNode);
