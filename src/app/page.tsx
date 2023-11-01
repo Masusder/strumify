@@ -1,7 +1,6 @@
 // import Link from "next/link";
 import Image from 'next/image'
 // import { CreatePost } from "~/app/_components/create-post";
-import NoteDetection from './_components/note-detection';
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import styles from "./index.module.css";
@@ -12,7 +11,6 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
-      <NoteDetection />
       
       {/* <AudioAnalyzer /> */}
       {/* <div className={styles.container}>
