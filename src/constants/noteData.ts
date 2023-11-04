@@ -4,6 +4,16 @@ export const noteFrequencies: number[] = [
     16.35, 17.32, 18.35, 19.45, 20.60, 21.83, 23.12, 24.50, 25.96, 27.50, 29.14, 30.87
 ];
 
+    // // Define arrays to store note names in different notations.
+    // public static readonly string[] WesternNotation = { "C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B" };
+    // public static readonly string[] WesternWithSymbols = { "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B" };
+    // public static readonly string[] WesternWithSpecialSymbols = { "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B" };
+    // public static readonly string[] GermanNotation = { "C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B" };
+    // public static readonly string[] GermanWithSpecialSymbols = { "C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B" };
+    // public static readonly string[] NeoLatinNotation = { "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "H" };
+    // public static readonly string[] NeoLatinWithSpecialSymbols = { "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "H" };
+    // public static readonly string[] FrenchNotation = { "Do", "Do♯", "Re", "Re♯", "Mi", "Fa", "Fa♯", "Sol", "Sol♯", "La", "La♯", "Si" };
+
 // export const standardTuningFrequencies: number[] = [
 //     329.63,
 //     220.00,
