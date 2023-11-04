@@ -5,13 +5,6 @@
 
 @layer base {
   :root {
-    /* --primary-color: #E11D48;
-    --secondary-color: #C22975;
-    --background-color: #1b1c1e;
-    --foreground-color: #5B4E8C;
-    --accent-color: #344F77;
-    --custom-color: #2F4858; */
-
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { EnumValues } from 'zod';
 import {
     Card,
     CardContent,
@@ -11,16 +12,18 @@ import { InstrumentTunings, InstrumentType, InstrumentTuningItem } from '~/model
 
 import { MusicUtilities } from '~/utils/AudioProcessing/musicUtilities';
 
-function mapTuningItems(selectedInstrument: InstrumentType) {
+function mapTuningItems(selectedInstrument: InstrumentType, tuningIndex: number, setTuningIndex: React.Dispatch<React.SetStateAction<number>>) {
     const tunings = InstrumentTunings[selectedInstrument];
-    return tunings.map((tuningItem, i) => <TuningItem key={i} tuningItem={tuningItem} />);
+    return tunings.map((tuningItem, i) => <TuningItem key={i} tuningItem={tuningItem} index={i} tuningIndex={tuningIndex} setTuningIndex={setTuningIndex} />);
 }
 
 interface TuningsProps {
-    selectedInstrument: InstrumentType
+    selectedInstrument: InstrumentType;
+    tuningIndex: number; 
+    setTuningIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function Tunings({ selectedInstrument }: TuningsProps) {
+function Tunings({ selectedInstrument, tuningIndex, setTuningIndex }: TuningsProps) {
     return (
         <Card>
             <CardHeader>
@@ -30,9 +33,9 @@ function Tunings({ selectedInstrument }: TuningsProps) {
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <ScrollArea className="h-[200px] w-auto rounded-md border p-4">
-                    <div className='flex flex-col gap-2'>
-                        {mapTuningItems(selectedInstrument)}
+                <ScrollArea className="h-[200px] w-auto rounded-md border p-3">
+                    <div className='grid grid-cols-1 lg:grid-cols-2 grid-flow-row-dense gap-y-4 gap-x-2 items-center pt-1 pb-1'>
+                        {mapTuningItems(selectedInstrument, tuningIndex, setTuningIndex)}
                     </div>
                 </ScrollArea>
             </CardContent>
@@ -42,32 +45,44 @@ function Tunings({ selectedInstrument }: TuningsProps) {
 
 interface TuningItemProps {
     tuningItem: InstrumentTuningItem;
+    index: number;
+    tuningIndex: number; 
+    setTuningIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function TuningItem({ tuningItem }: TuningItemProps) {
+function TuningItem({ tuningItem, tuningIndex, setTuningIndex, index }: TuningItemProps) {
     const { notes, tuningName } = tuningItem;
 
     const noteStringsArray = notes.map((midiNote) => MusicUtilities.midiNoteToNoteString(midiNote));
-    console.log(noteStringsArray)
 
+    let bgColor = 'bg-muted';
+    if (tuningIndex === index) bgColor = 'bg-primary';
     const tuningNoteElements = noteStringsArray.map((note, index) => (
-        <TuningNote key={index} note={note} />
+        <TuningNote key={index} note={note} bgColor={bgColor} />
     ));
 
+    const handleTuningChange = () => {
+        setTuningIndex(index);
+    }
+
     return (
-        <div className='flex gap-1'>
-            {tuningNoteElements}
-        </div>
+        <button onClick={handleTuningChange} className={`${tuningIndex === index ? 'border-primary' : ''} flex flex-col gap-1 p-2 items-center hover:border-primary rounded-lg border-[1px] border-transparent bo hover:border-[1px] cursor-pointer transition-colors`}>
+            {tuningName}
+            <div className='flex flex-row gap-1'>
+                {tuningNoteElements}
+            </div>
+        </button>
     );
 }
 
 interface TuningNoteProps {
     note: string | null;
+    bgColor: string;
 }
 
-function TuningNote({ note }: TuningNoteProps) {
+function TuningNote({ note, bgColor }: TuningNoteProps) {
     return (
-        <div className="flex items-center justify-center rounded-full border border-solid border-transparent bg-muted font-semibold w-[44px] h-[44px] text-center transition duration-150 ease-out p-0 z-2">
+        <div className={`flex items-center justify-center rounded-full border border-solid border-transparent ${bgColor} font-semibold w-[28px] h-[28px] text-center transition duration-150 ease-out p-0 z-2`}>
             {note}
         </div>
     )

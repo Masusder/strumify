@@ -1,8 +1,8 @@
 "use client"
 
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "~/lib/utils"
+import { cn } from "~/lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -10,7 +10,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "~/components/ui/navigation-menu"
+} from "~/components/ui/navigation-menu";
+import styles from './navigation.module.css';
 
 export function NavigationMenuCustom() {
   return (
@@ -19,19 +20,18 @@ export function NavigationMenuCustom() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Get started</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+            <ul className="grid gap-3 p-6 w-[200px] md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                    className={styles.bgCustomGradient + " flex h-full w-full select-none flex-col justify-end rounded-md p-6 no-underline outline-none focus:shadow-md"}
                     href="/"
                   >
-                    <div className="mb-2 mt-4 text-lg font-medium">
-                      shadcn/ui
+                    <div className="mb-2 mt-4 text-lg font-bold">
+                      Strumify
                     </div>
-                    <p className="text-sm leading-tight text-muted-foreground">
-                      Beautifully designed components built with Radix UI and
-                      Tailwind CSS.
+                    <p className="text-sm leading-tight text-background">
+                      Your ultimate guitar companion for creating and sharing tabs..
                     </p>
                   </a>
                 </NavigationMenuLink>
@@ -39,11 +39,8 @@ export function NavigationMenuCustom() {
               <ListItem href="/tuner" title="Guitar Tuner">
                 A handy tool for tuning your instrument with precision.
               </ListItem>
-              <ListItem href="/docs/installation" title="Installation">
-                How to install dependencies and structure your app.
-              </ListItem>
-              <ListItem href="/docs/primitives/typography" title="Typography">
-                Styles for headings, paragraphs, lists...etc
+              <ListItem href="/install" title="Installation">
+                Install the app and start sharing your own music.
               </ListItem>
             </ul>
           </NavigationMenuContent>

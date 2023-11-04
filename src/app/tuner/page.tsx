@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import styles from './tuner.module.css';
+import { Mic } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
     Card,
@@ -17,25 +18,41 @@ import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
 import InstrumentItem from './_components/instrument-item';
 import TuningNoteButton from './_components/tuning-note-button';
 
-import { TuningData, NotationData } from '~/constants/noteData';
 import { PitchDetector } from 'pitchy';
 import { ClosestNoteData, findClosestNote } from '~/utils/AudioProcessing';
 import { InstrumentType, InstrumentTunings } from '~/models/Instruments';
 
 import { Tunings } from '~/components/Pages/Tuner';
 
+import { MusicUtilities } from '~/utils/AudioProcessing/musicUtilities';
 
 function GuitarTuner() {
     const [detectedFrequency, setDetectedFrequency] = useState<number>(-1);
     const [cents, setCents] = useState<number>(0);
     const [detectedNote, setDetectedNote] = useState<string>("");
     const [selectedInstrument, setSelectedInstrument] = useState<InstrumentType>(InstrumentType.Acoustic);
+    const [tuningIndex, setTuningIndex] = useState<number>(0);
+    const [inTune, setInTune] = useState<boolean>(false);
 
     const [targetedNoteIndex, setTargetedNoteIndex] = useState<number>(-1); // Variable for manual note selection
 
     const initialGuitarSettings: GuitarData = {
-        tuningFrequency: TuningData.standardGuitar6StringFrequency,
-        tuningNotation: NotationData.standardGuitar6String,
+        tuningFrequency: [
+            82.40688922821748,
+            110,
+            146.8323839587038,
+            195.99771799087466,
+            246.94165062806206,
+            329.6275569128699
+        ],
+        tuningNotation: [
+            "E",
+            "A",
+            "D",
+            "G",
+            "B",
+            "E"
+        ],
         imageSrc: "/assets/images/Tuner/Headstocks/Acoustic.png"
     };
     const [guitarData, setGuitarData] = useState<GuitarData>(initialGuitarSettings);
@@ -45,6 +62,34 @@ function GuitarTuner() {
     const togglePitchDetection = () => {
         setIsPitchDetectionRunning(!isPitchDetectionRunning);
     }
+
+    useEffect(() => {
+        setTuningIndex(0);
+    }, [selectedInstrument])
+
+    const playInTune = () => {
+        // Create a new Audio instance and play it
+        const audio = new Audio('/assets/audio/TuneSuccess.mp3');
+        audio.play().catch(error => console.error('Error playing audio:', error));
+        return audio;
+    };
+
+    useEffect(() => {
+        let audioInstance = null;
+        if (inTune) {
+            // Check if audio is currently playing
+            if (!audioInstance) {
+                // Play the audio when the string is in tune
+                audioInstance = playInTune();
+
+                // After 5 seconds, allow playing again
+                setTimeout(() => {
+                    setInTune(false);
+                    audioInstance = null; // Reset the audio instance
+                }, 5000);
+            }
+        }
+    }, [inTune])
 
     useEffect(() => {
         let animationFrameId: number;
@@ -125,47 +170,58 @@ function GuitarTuner() {
     useEffect(() => {
         function changeGuitarData() {
             setTargetedNoteIndex(-1);
+            setIsPitchDetectionRunning(false);
 
-            switch (selectedInstrument) {
-                case "acoustic":
-                    setGuitarData({
-                        tuningFrequency: TuningData.standardGuitar6StringFrequency,
-                        tuningNotation: NotationData.standardGuitar6String,
-                        imageSrc: "/assets/images/Tuner/Headstocks/Acoustic.png"
-                    });
-                    break;
-                case "bass":
-                    setGuitarData({
-                        tuningFrequency: TuningData.standardBass4StringFrequency,
-                        tuningNotation: NotationData.standardBass4String,
-                        imageSrc: "/assets/images/Tuner/Headstocks/Bass.png"
-                    });
-                    break;
-                case "ukulele":
-                    setGuitarData({
-                        tuningFrequency: TuningData.standardUkulele4StringFrequency,
-                        tuningNotation: NotationData.standardUkulele4String,
-                        imageSrc: "/assets/images/Tuner/Headstocks/Ukulele.png"
-                    });
-                    break;
-                case "electric":
-                    setGuitarData({
-                        tuningFrequency: TuningData.standardGuitar6StringFrequency,
-                        tuningNotation: NotationData.standardGuitar6String,
-                        imageSrc: "/assets/images/Tuner/Headstocks/Electric.png"
-                    });
-                    break;
-                default:
-                    break;
+            const midiNotes = InstrumentTunings[selectedInstrument][tuningIndex]?.notes;
+            if (midiNotes) {
+                // Convert midi values to notes and make sure there's no null values
+                const notation: (string | null)[] = midiNotes.map((midiNote) => MusicUtilities.midiNoteToNoteString(midiNote)) as string[];
+                const filteredNotation: string[] = notation.filter((note) => note !== null) as string[];
+
+                // Convert midi values to frequencies
+                const frequencies: number[] = MusicUtilities.midiNotesArrayToFrequencies(midiNotes);
+
+                switch (selectedInstrument) {
+                    case "acoustic":
+                        setGuitarData({
+                            tuningFrequency: frequencies,
+                            tuningNotation: filteredNotation,
+                            imageSrc: "/assets/images/Tuner/Headstocks/Acoustic.png"
+                        });
+                        break;
+                    case "bass":
+                        setGuitarData({
+                            tuningFrequency: frequencies,
+                            tuningNotation: filteredNotation,
+                            imageSrc: "/assets/images/Tuner/Headstocks/Bass.png"
+                        });
+                        break;
+                    case "ukulele":
+                        setGuitarData({
+                            tuningFrequency: frequencies,
+                            tuningNotation: filteredNotation,
+                            imageSrc: "/assets/images/Tuner/Headstocks/Ukulele.png"
+                        });
+                        break;
+                    case "electric":
+                        setGuitarData({
+                            tuningFrequency: frequencies,
+                            tuningNotation: filteredNotation,
+                            imageSrc: "/assets/images/Tuner/Headstocks/Electric.png"
+                        });
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
         changeGuitarData();
-    }, [selectedInstrument])
+    }, [selectedInstrument, tuningIndex])
 
     function tuneGuitar(detectedFrequency: number, closestNote: number): void {
         const frequencies: number[] = guitarData.tuningFrequency;
-        const tolerance: number = 5; // Adjust this value to set the acceptable frequency deviation.
+        const tolerance: number = 2; // Adjust this value to set the acceptable frequency deviation.
 
         const targetFrequency: number | undefined = frequencies[closestNote];
 
@@ -175,17 +231,12 @@ function GuitarTuner() {
             setCents(centsDifference);
 
             if (Math.abs(centsDifference) <= tolerance) {
-                // String is in tune
-
-                //playInTune(); // Play the audio when the string is in tune  
+                // Play the audio when the string is in tune  
+                setInTune(true);
             }
         }
     }
 
-    // function playInTune(): void {
-    //     const audio = new Audio('/assets/audio/TuneSuccess.mp3');
-    //     audio.play().catch(error => console.error('Error playing audio:', error));
-    // }
 
     function updateElementColor(): string {
         // Calculate color based on the cents value
@@ -300,7 +351,11 @@ function GuitarTuner() {
                             </Card>
                         </TabsContent>
                         <TabsContent value="tuning">
-                            <Tunings selectedInstrument={selectedInstrument} />
+                            <Tunings
+                                selectedInstrument={selectedInstrument}
+                                tuningIndex={tuningIndex}
+                                setTuningIndex={setTuningIndex}
+                            />
                         </TabsContent>
                         <TabsContent value="settings">
                             <Card>

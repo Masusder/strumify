@@ -1,11 +1,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { CircleFlag } from 'react-circle-flags';
-import { Separator } from "~/components/ui/separator"
+import { Separator } from "~/components/ui/separator";
 import { ThemeToggle } from '~/components/Theme/theme-toggle';
-import { Button } from '~/components/ui/button';
 import { NavigationMenuCustom } from './navigation';
-import styles from './header.module.css';
+import LocalizationButton from './Localization/localization-button';
 
 function Header() {
     return (
@@ -16,9 +14,7 @@ function Header() {
                 </Link>
             </div>
             <nav className='flex justify-end gap-4 items-center'>
-                <Button style={{ width: "40px", height: "36px" }} size="icon">
-                    <CircleFlag alt='Country flag' countryCode="us" width={24} height="auto" className={styles.dropShadow} />
-                </Button>
+                <LocalizationButton />
                 <ThemeToggle />
                 <Separator orientation='vertical' style={{ height: "24px", backgroundColor: "#5b5b5b" }} />
                 <NavigationMenuCustom />

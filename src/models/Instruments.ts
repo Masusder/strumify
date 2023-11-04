@@ -1,10 +1,8 @@
-import { MusicUtilities } from "~/utils/AudioProcessing/musicUtilities";
-
 export enum InstrumentType {
-    Acoustic = 'acoustic',
-    Electric = 'electric',
-    Bass = 'bass',
-    Ukulele = 'ukulele'
+  Acoustic = 'acoustic',
+  Electric = 'electric',
+  Bass = 'bass',
+  Ukulele = 'ukulele'
 }
 
 type InstrumentTunings = Record<InstrumentType, InstrumentTuningItem[]>;
@@ -15,56 +13,272 @@ export type InstrumentTuningItem = {
 }
 
 export const InstrumentTunings: InstrumentTunings = {
-    [InstrumentType.Acoustic]: [
-      {
-        notes: [62, 57, 53, 50, 45, 38],
-        tuningName: "Open Dm",
-      },
-      {
-        notes: [64, 59, 55, 50, 45, 40],
-        tuningName: "Standard",
-      },
-      {
-        notes: [64, 59, 55, 50, 45, 38],
-        tuningName: "Drop D",
-      },
-      {
-        notes: [62, 59, 55, 50, 45, 38],
-        tuningName: "Double Drop D",
-      },
-    ],
-    [InstrumentType.Ukulele]: [
-      {
-        notes: [69, 64, 60, 67],
-        tuningName: "Standard",
-      },
-      {
-        notes: [71, 66, 62, 69],
-        tuningName: "Soprano in D",
-      },
-      {
-        notes: [69, 64, 60, 55],
-        tuningName: "Low G",
-      },
-      {
-        notes: [69, 66, 62, 57],
-        tuningName: "Low A",
-      },
-    ],
-    [InstrumentType.Bass]: [
-      {
-        notes: [69, 64, 60, 67],
-        tuningName: "Standard",
-      }
-    ],
-    [InstrumentType.Electric]: [
-      {
-        notes: [69, 64, 60, 67],
-        tuningName: "Standard",
-      }
-    ]
-  };
-  
+  [InstrumentType.Acoustic]: [
+    {
+      notes: [40, 45, 50, 55, 59, 64],
+      tuningName: "Standard",
+    },
+    {
+      notes: [38, 45, 50, 53, 57, 62],
+      tuningName: "Open Dm",
+    },
+    {
+      notes: [38, 45, 50, 55, 59, 64],
+      tuningName: "Drop D",
+    },
+    {
+      notes: [38, 45, 50, 55, 59, 62],
+      tuningName: "Double Drop D",
+    },
+    {
+      notes: [38, 45, 50, 55, 59, 62],
+      tuningName: "D modal",
+    },
+    {
+      notes: [38, 45, 50, 55, 57, 62],
+      tuningName: "Double Daddy",
+    },
+    {
+      notes: [37, 44, 49, 54, 58, 63],
+      tuningName: "Drop C#",
+    },
+    {
+      notes: [36, 43, 48, 53, 57, 62],
+      tuningName: "Drop C",
+    },
+    {
+      notes: [35, 42, 47, 52, 56, 61],
+      tuningName: "Drop B",
+    },
+    {
+      notes: [33, 40, 45, 50, 54, 59],
+      tuningName: "Drop A",
+    },
+    {
+      notes: [39, 44, 49, 54, 58, 63],
+      tuningName: "Eb",
+    },
+    {
+      notes: [38, 43, 48, 53, 57, 62],
+      tuningName: "D",
+    },
+    {
+      notes: [41, 46, 51, 56, 60, 65],
+      tuningName: "F",
+    },
+    {
+      notes: [42, 47, 52, 57, 61, 66],
+      tuningName: "F#",
+    },
+    {
+      notes: [38, 43, 50, 55, 60, 62],
+      tuningName: "G modal",
+    },
+    {
+      notes: [40, 45, 50, 55, 60, 65],
+      tuningName: "all 4th",
+    },
+    {
+      notes: [36, 43, 50, 57, 64, 67],
+      tuningName: "NST",
+    },
+    {
+      notes: [36, 43, 48, 55, 60, 64],
+      tuningName: "Open C",
+    },
+    {
+      notes: [40, 45, 52, 56, 59, 64],
+      tuningName: "Open E",
+    },
+    {
+      notes: [36, 41, 48, 53, 57, 65],
+      tuningName: "Open F",
+    },
+    {
+      notes: [38, 43, 50, 55, 59, 62],
+      tuningName: "Open G",
+    },
+    {
+      notes: [40, 45, 49, 52, 57, 64],
+      tuningName: "Open A",
+    },
+    {
+      notes: [40, 45, 52, 57, 61, 64],
+      tuningName: "Open A",
+    },
+    {
+      notes: [40, 45, 52, 57, 60, 64],
+      tuningName: "Open Am",
+    },
+    {
+      notes: [40, 47, 52, 55, 59, 64],
+      tuningName: "Open Em",
+    },
+    {
+      notes: [38, 45, 50, 54, 57, 62],
+      tuningName: "Open D",
+    },
+    {
+      notes: [38, 45, 50, 53, 57, 62],
+      tuningName: "Open Dm",
+    },
+  ],
+  [InstrumentType.Ukulele]: [
+    {
+      notes: [67, 60, 64, 69],
+      tuningName: "Standard",
+    },
+    {
+      notes: [69, 62, 66, 71],
+      tuningName: "Soprano in D",
+    },
+    {
+      notes: [55, 60, 64, 69],
+      tuningName: "Low G",
+    },
+    {
+      notes: [57, 62, 66, 69],
+      tuningName: "Low A",
+    },
+  ],
+  [InstrumentType.Bass]: [
+    {
+      notes: [28, 33, 38, 43],
+      tuningName: "Standard",
+    },
+    {
+      notes: [26, 33, 38, 43],
+      tuningName: "Drop D",
+    },
+    {
+      notes: [27, 32, 37, 42],
+      tuningName: "E flat",
+    },
+    {
+      notes: [24, 31, 36, 41],
+      tuningName: "Drop C",
+    },
+    {
+      notes: [24, 33, 38, 43],
+      tuningName: "Low C",
+    },
+    {
+      notes: [23, 28, 33, 38],
+      tuningName: "Low B",
+    },
+  ],
+  [InstrumentType.Electric]: [
+    {
+      notes: [40, 45, 50, 55, 59, 64],
+      tuningName: "Standard",
+    },
+    {
+      notes: [38, 45, 50, 53, 57, 62],
+      tuningName: "Open Dm",
+    },
+    {
+      notes: [38, 45, 50, 55, 59, 64],
+      tuningName: "Drop D",
+    },
+    {
+      notes: [38, 45, 50, 55, 59, 62],
+      tuningName: "Double Drop D",
+    },
+    {
+      notes: [38, 45, 50, 55, 59, 62],
+      tuningName: "D modal",
+    },
+    {
+      notes: [38, 45, 50, 55, 57, 62],
+      tuningName: "Double Daddy",
+    },
+    {
+      notes: [37, 44, 49, 54, 58, 63],
+      tuningName: "Drop C#",
+    },
+    {
+      notes: [36, 43, 48, 53, 57, 62],
+      tuningName: "Drop C",
+    },
+    {
+      notes: [35, 42, 47, 52, 56, 61],
+      tuningName: "Drop B",
+    },
+    {
+      notes: [33, 40, 45, 50, 54, 59],
+      tuningName: "Drop A",
+    },
+    {
+      notes: [39, 44, 49, 54, 58, 63],
+      tuningName: "Eb",
+    },
+    {
+      notes: [38, 43, 48, 53, 57, 62],
+      tuningName: "D",
+    },
+    {
+      notes: [41, 46, 51, 56, 60, 65],
+      tuningName: "F",
+    },
+    {
+      notes: [42, 47, 52, 57, 61, 66],
+      tuningName: "F#",
+    },
+    {
+      notes: [38, 43, 50, 55, 60, 62],
+      tuningName: "G modal",
+    },
+    {
+      notes: [40, 45, 50, 55, 60, 65],
+      tuningName: "all 4th",
+    },
+    {
+      notes: [36, 43, 50, 57, 64, 67],
+      tuningName: "NST",
+    },
+    {
+      notes: [36, 43, 48, 55, 60, 64],
+      tuningName: "Open C",
+    },
+    {
+      notes: [40, 45, 52, 56, 59, 64],
+      tuningName: "Open E",
+    },
+    {
+      notes: [36, 41, 48, 53, 57, 65],
+      tuningName: "Open F",
+    },
+    {
+      notes: [38, 43, 50, 55, 59, 62],
+      tuningName: "Open G",
+    },
+    {
+      notes: [40, 45, 49, 52, 57, 64],
+      tuningName: "Open A",
+    },
+    {
+      notes: [40, 45, 52, 57, 61, 64],
+      tuningName: "Open A",
+    },
+    {
+      notes: [40, 45, 52, 57, 60, 64],
+      tuningName: "Open Am",
+    },
+    {
+      notes: [40, 47, 52, 55, 59, 64],
+      tuningName: "Open Em",
+    },
+    {
+      notes: [38, 45, 50, 54, 57, 62],
+      tuningName: "Open D",
+    },
+    {
+      notes: [38, 45, 50, 53, 57, 62],
+      tuningName: "Open Dm",
+    },
+  ],
+};
+
 
 
 // export class InstrumentTunings {
