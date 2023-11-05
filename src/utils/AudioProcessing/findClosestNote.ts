@@ -5,7 +5,6 @@ export type ClosestNoteData = {
     noteName: string
 }
 
-
 // Function to find the closest note for any pitch
 export function findClosestNote(pitch: number, currentTuning: string[], currentTuningFrequency: number[], targetedNoteIndex: number): ClosestNoteData {
     let closestNoteIndex: number = 0;

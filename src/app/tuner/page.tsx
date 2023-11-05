@@ -3,26 +3,14 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 import styles from './tuner.module.css';
-import { Mic } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
-import { Switch } from "~/components/ui/switch";
-import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
-import InstrumentItem from './_components/instrument-item';
 import TuningNoteButton from './_components/tuning-note-button';
 
 import { PitchDetector } from 'pitchy';
 import { ClosestNoteData, findClosestNote } from '~/utils/AudioProcessing';
 import { InstrumentType, InstrumentTunings } from '~/models/Instruments';
 
-import { Tunings } from '~/components/Pages/Tuner';
+import { TunerTabs, Tunings } from '~/components/Pages/Tuner';
 
 import { MusicUtilities } from '~/utils/AudioProcessing/musicUtilities';
 
@@ -267,7 +255,10 @@ function GuitarTuner() {
                         <div className={`${styles.tuneLine} top-[-64px] lg:top-[-20px]`}></div>
                         <div style={{ left: `${Math.max(-150, Math.min(150, cents))}px`, border: cents !== 0 ? `1px solid ${updateElementColor()}` : '1px solid white' }} className={`${styles.tuningNote} ${styles.detectedNote}`}>
                             <span className='text-[1.3em]'>{detectedNote}</span>
-                            {!!detectedNote && <span style={{ color: `${updateElementColor()}`, textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black" }} className='text-[0.6em] drop-shadow-md'>{Math.round(cents)}</span>}
+                            {!!detectedNote &&
+                                <span style={{ color: `${updateElementColor()}`, textShadow: "-1px 0 black, 0 1px black, 1px 0 black, 0 -1px black" }} className='text-[0.6em] drop-shadow-md'>
+                                    {Math.round(cents)}
+                                </span>}
                         </div>
                     </div>
                     <div className='w-[300px] h-[407.22px] relative'>
@@ -286,100 +277,21 @@ function GuitarTuner() {
                                     updateElementColor={updateElementColor}
                                 />)}
                         </div>
-                        <Image src={guitarData.imageSrc} priority className='drop-shadow-md absolute w-full h-full z-[2] pointer-events-none' style={{ left: "50%", transform: "translateX(-50%)" }} alt="Guitar headstock" width={368.35} height={500} />
+                        <Image src={guitarData.imageSrc} priority className='drop-shadow-md absolute w-full h-full z-[2] pointer-events-none left-[50%] translate-x-[-50%]' alt="Guitar headstock" width={368.35} height={500} />
                     </div>
                 </div>
                 <Button className={isPitchDetectionRunning ? 'bg-lime-600 hover:bg-lime-500 lg:hidden z-10 mb-10' : 'lg:hidden z-10 mb-10'} onClick={togglePitchDetection}>{isPitchDetectionRunning ? 'STOP' : 'Click to start tuning'}</Button>
                 <div className='flex items-center flex-col-reverse lg:flex-col z-10'>
-                    <Tabs defaultValue="instruments" className="max-w-[350px] my-4 lg:max-w-[500px]">
-                        <TabsList style={{ display: "flex", width: "min-content", margin: "auto" }}>
-                            <TabsTrigger value="instruments">Instruments</TabsTrigger>
-                            <TabsTrigger value="tuning">Tuning</TabsTrigger>
-                            <TabsTrigger value="settings">Settings</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="instruments">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Select instrument</CardTitle>
-                                    <CardDescription>
-                                        Choose instrument you would like to tune.
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent className="space-y-2">
-                                    <ScrollArea className="w-auto lg:w-[400px] flex gap-3 pb-2">
-                                        <div className='flex gap-3'>
-                                            <InstrumentItem
-                                                instrumentName='Acoustic'
-                                                instrumentType={InstrumentType.Acoustic}
-                                                imageSrc="/assets/images/Tuner/Headstocks/Acoustic.png"
-                                                width={568}
-                                                height={771}
-                                                selectedId={selectedInstrument}
-                                                setInstrument={setSelectedInstrument}
-                                            />
-                                            <InstrumentItem
-                                                instrumentName='Bass'
-                                                instrumentType={InstrumentType.Bass}
-                                                imageSrc="/assets/images/Tuner/Headstocks/Bass.png"
-                                                width={568}
-                                                height={771}
-                                                selectedId={selectedInstrument}
-                                                setInstrument={setSelectedInstrument}
-                                            />
-                                            <InstrumentItem
-                                                instrumentName='Ukulele'
-                                                instrumentType={InstrumentType.Ukulele}
-                                                imageSrc="/assets/images/Tuner/Headstocks/Ukulele.png"
-                                                width={568}
-                                                height={771}
-                                                selectedId={selectedInstrument}
-                                                setInstrument={setSelectedInstrument}
-                                            />
-                                            <InstrumentItem
-                                                instrumentName='Electric'
-                                                instrumentType={InstrumentType.Electric}
-                                                imageSrc="/assets/images/Tuner/Headstocks/Electric.png"
-                                                width={568}
-                                                height={771}
-                                                selectedId={selectedInstrument}
-                                                setInstrument={setSelectedInstrument}
-                                            />
-                                        </div>
-                                        <ScrollBar heightOverride='!h-[5px]' orientation="horizontal" />
-                                    </ScrollArea>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-                        <TabsContent value="tuning">
-                            <Tunings
-                                selectedInstrument={selectedInstrument}
-                                tuningIndex={tuningIndex}
-                                setTuningIndex={setTuningIndex}
-                            />
-                        </TabsContent>
-                        <TabsContent value="settings">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Settings</CardTitle>
-                                    <CardDescription>
-                                        Choose whether you want automatic note detection or select note you want to tune individually.
-                                        <br /><br />
-                                        Please note that automatic note detection may not function accurately if your instrument is significantly out of tune.
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent className='flex flex-col items-center justify-center gap-3'>
-                                    <Switch id="automatic-tuning" checked={targetedNoteIndex === -1} onCheckedChange={() => changeTuningMode(targetedNoteIndex === -1 ? 0 : -1)} />
-                                    <div className='flex gap-1'>
-                                        {guitarData.tuningNotation.map((note: string, index: number) => {
-                                            return (
-                                                <button key={index} onClick={() => changeTuningMode(index)} className={`${styles.tuningNote} ${styles[`tuningNote${index + 1}`]} ${targetedNoteIndex === index ? styles.noteTargeted : ''}`}>{note}</button>
-                                            );
-                                        })}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
-                    </Tabs>
+                    <TunerTabs
+                        selectedInstrument={selectedInstrument}
+                        setSelectedInstrument={setSelectedInstrument}
+                        tuningIndex={tuningIndex}
+                        setTuningIndex={setTuningIndex}
+                        guitarData={guitarData}
+                        targetedNoteIndex={targetedNoteIndex}
+                        setTargetedNoteIndex={setTargetedNoteIndex}
+                        changeTuningMode={changeTuningMode}
+                    />
                     <Button className={isPitchDetectionRunning ? 'bg-lime-600 hover:bg-lime-500 mt-3 hidden lg:block' : 'mt-3 hidden lg:block'} onClick={togglePitchDetection}>{isPitchDetectionRunning ? 'STOP' : 'Click to start tuning'}</Button>
                 </div>
             </div>

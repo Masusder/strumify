@@ -45,7 +45,7 @@ function LocalizationButton() {
             }
         }
 
-        return "us";
+        return "";
     }
 
     const changeLanguage = (lang: string, code: string) => {
@@ -56,7 +56,7 @@ function LocalizationButton() {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button style={{ width: "60px", height: "36px" }} size="icon">
+                <Button className=' w-[60px] h-[36px]' size="icon">
                     <CircleFlag alt='Country flag' countryCode={checkLanguageCode()} width={24} height="auto" className={styles.dropShadow} />
                     <ChevronsUpDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
