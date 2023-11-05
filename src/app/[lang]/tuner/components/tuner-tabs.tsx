@@ -9,8 +9,8 @@ import {
 } from "~/components/ui/card";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Switch } from "~/components/ui/switch";
-import Tunings from '../tunings';
-import InstrumentItem from './instrument-item';
+import Tunings from './tunings';
+import InstrumentItem from './TabItems/instrument-item';
 
 import { InstrumentType } from '~/models/Instruments';
 import styles from '~/app/[lang]/tuner/tuner.module.css';

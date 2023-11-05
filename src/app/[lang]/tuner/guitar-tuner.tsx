@@ -2,15 +2,15 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-import styles from '../tuner.module.css';
+import styles from './tuner.module.css';
 import { Button } from "~/components/ui/button";
-import TuningNoteButton from './tuning-note-button';
+import { TuningNoteButton } from './components';
 
 import { PitchDetector } from 'pitchy';
 import { ClosestNoteData, findClosestNote } from '~/utils/AudioProcessing';
 import { InstrumentType, InstrumentTunings } from '~/models/Instruments';
 
-import { TunerTabs } from '~/components/Pages/Tuner';
+import { TunerTabs } from './components/';
 
 import { MusicUtilities } from '~/utils/AudioProcessing/musicUtilities';
 

@@ -19,7 +19,7 @@ function mapTuningItems(selectedInstrument: InstrumentType, tuningIndex: number,
 
 interface TuningsProps {
     selectedInstrument: InstrumentType;
-    tuningIndex: number; 
+    tuningIndex: number;
     setTuningIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
@@ -46,7 +46,7 @@ function Tunings({ selectedInstrument, tuningIndex, setTuningIndex }: TuningsPro
 interface TuningItemProps {
     tuningItem: InstrumentTuningItem;
     index: number;
-    tuningIndex: number; 
+    tuningIndex: number;
     setTuningIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 

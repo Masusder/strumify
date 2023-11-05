@@ -1,4 +1,4 @@
-import GuitarTuner from "./_components/guitar-tuner";
+import GuitarTuner from "./guitar-tuner";
 import { getLocales } from "~/get-dictionary";
 
 async function Tuner({ params }: any) {
