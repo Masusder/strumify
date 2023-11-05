@@ -10,10 +10,10 @@ import {
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Switch } from "~/components/ui/switch";
 import Tunings from '../tunings';
-import InstrumentItem from '~/app/tuner/_components/instrument-item';
+import InstrumentItem from './instrument-item';
 
 import { InstrumentType } from '~/models/Instruments';
-import styles from '~/app/tuner/tuner.module.css';
+import styles from '~/app/[lang]/tuner/tuner.module.css';
 
 interface TabsProps {
     selectedInstrument: InstrumentType;

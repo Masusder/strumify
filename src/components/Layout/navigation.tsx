@@ -13,7 +13,7 @@ import {
 } from "~/components/ui/navigation-menu";
 import styles from './navigation.module.css';
 
-export function NavigationMenuCustom() {
+export function NavigationMenuCustom({ lang }: { lang: string }) {
   return (
     <NavigationMenu>
       <NavigationMenuList>
@@ -25,7 +25,7 @@ export function NavigationMenuCustom() {
                 <NavigationMenuLink asChild>
                   <a
                     className={styles.bgCustomGradient + " flex h-full w-full select-none flex-col justify-end rounded-md p-6 no-underline outline-none focus:shadow-md"}
-                    href="/"
+                    href={`/${lang}`}
                   >
                     <div className="mb-2 mt-4 text-lg font-bold">
                       Strumify
@@ -36,10 +36,10 @@ export function NavigationMenuCustom() {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/tuner" title="Guitar Tuner">
+              <ListItem href={`/${lang}/tuner`} title="Guitar Tuner">
                 A handy tool for tuning your instrument with precision.
               </ListItem>
-              <ListItem href="/install" title="Installation">
+              <ListItem href={`/${lang}/installation`} title="Installation">
                 Install the app and start sharing your own music.
               </ListItem>
             </ul>

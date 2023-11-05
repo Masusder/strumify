@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from '~/components/ui/button';
 import { CircleFlag } from 'react-circle-flags';
+import { usePathname, useRouter } from 'next/navigation';
+import { Locale } from '~/i18n-config';
 import styles from '../header.module.css';
 
 import {
@@ -18,6 +20,9 @@ import {
     CommandItem,
 } from "~/components/ui/command"
 import { Check, ChevronsUpDown } from "lucide-react"
+
+import { cn } from '~/lib/utils';
+
 const languages = [
     { label: "English", value: "en", flagCode: "us" },
     { label: "Polish", value: "pl", flagCode: "pl" },
@@ -31,26 +36,28 @@ const languages = [
     { label: "Chinese", value: "zh", flagCode: "cn" }
 ] as const
 
-import { cn } from '~/lib/utils';
-
-function LocalizationButton() {
-    const [language, setLanguage] = useState("en");
-    const [flag, setFlag] = useState("us");
+function LocalizationButton({ lang }: {lang: string}) {
+    const router = useRouter();
+    const pathName = usePathname();
 
     const checkLanguageCode = () => {
-        if (language) {
-            const langCode = languages.find((lang) => lang.value === language)?.value;
+        if (lang) {
+            const langCode = languages.find((_lang) => _lang.value === lang)?.flagCode;
             if (langCode) {
-                return flag;
+                return langCode;
             }
         }
 
         return "";
     }
 
-    const changeLanguage = (lang: string, code: string) => {
-        setLanguage(lang);
-        setFlag(code);
+    const changeLanguage = (lang: string) => {
+        if (!pathName) router.push('/');
+        const segments = pathName.split('/');
+        segments[1] = lang;
+        const newUrl = segments.join('/');
+
+        router.push(newUrl);
     }
 
     return (
@@ -66,25 +73,25 @@ function LocalizationButton() {
                     <CommandInput placeholder="Search language..." />
                     <CommandEmpty>No language found.</CommandEmpty>
                     <CommandGroup>
-                        {languages.map((lang) => (
+                        {languages.map((_lang) => (
                             <CommandItem
                                 className='cursor-pointer'
-                                value={lang.label}
-                                key={lang.value}
+                                value={_lang.label}
+                                key={_lang.value}
                                 onSelect={() => {
-                                    changeLanguage(lang.value, lang.flagCode)
+                                    changeLanguage(_lang.value)
                                 }}
                             >
                                 <Check
                                     className={cn(
                                         "mr-2 h-4 w-4",
-                                        lang.value === language
+                                        _lang.value === lang
                                             ? "opacity-100"
                                             : "opacity-0"
                                     )}
                                 />
-                                {lang.label}
-                                <CircleFlag alt='Country flag' countryCode={lang.flagCode} width={12} height="auto" className={cn(styles.dropShadow, "ml-2")} />
+                                {_lang.label}
+                                <CircleFlag alt='Country flag' countryCode={_lang.flagCode} width={12} height="auto" className={cn(styles.dropShadow, "ml-2")} />
                             </CommandItem>
                         ))}
                     </CommandGroup>

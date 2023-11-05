@@ -5,19 +5,23 @@ import { ThemeToggle } from '~/components/Theme/theme-toggle';
 import { NavigationMenuCustom } from './navigation';
 import LocalizationButton from './Localization/localization-button';
 
-function Header() {
+function Header({
+    params: { lang },
+  }: {
+    params: { lang: string }
+  }) {
     return (
         <header className='flex pr-2 pl-2 h-14 bg-zinc-800 items-center sticky top-0 z-50'>
             <div className='w-full h-auto'>
-                <Link href='/' className='block' style={{ width: "49px", height: "45px" }}>
+                <Link href={`/${lang}`} className='block' style={{ width: "49px", height: "45px" }}>
                     <Image src="/assets/images/Logo/StrumifyLogoIcon.png" priority className='drop-shadow-md' alt="Logo" width={48} height={45} />
                 </Link>
             </div>
             <nav className='flex justify-end gap-4 items-center'>
-                <LocalizationButton />
+                <LocalizationButton lang={lang} />
                 <ThemeToggle />
                 <Separator orientation='vertical' style={{ height: "24px", backgroundColor: "#5b5b5b" }} />
-                <NavigationMenuCustom />
+                <NavigationMenuCustom lang={lang} />
             </nav>
         </header>
     );

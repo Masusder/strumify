@@ -2,19 +2,20 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
-import styles from './tuner.module.css';
+import styles from '../tuner.module.css';
 import { Button } from "~/components/ui/button";
-import TuningNoteButton from './_components/tuning-note-button';
+import TuningNoteButton from './tuning-note-button';
 
 import { PitchDetector } from 'pitchy';
 import { ClosestNoteData, findClosestNote } from '~/utils/AudioProcessing';
 import { InstrumentType, InstrumentTunings } from '~/models/Instruments';
 
-import { TunerTabs, Tunings } from '~/components/Pages/Tuner';
+import { TunerTabs } from '~/components/Pages/Tuner';
 
 import { MusicUtilities } from '~/utils/AudioProcessing/musicUtilities';
 
-function GuitarTuner() {
+function GuitarTuner({ t }: any) {
+    console.log(t)
     const [detectedFrequency, setDetectedFrequency] = useState<number>(-1);
     const [cents, setCents] = useState<number>(0);
     const [detectedNote, setDetectedNote] = useState<string>("");
