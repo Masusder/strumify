@@ -8,7 +8,7 @@ import { TuningNoteButton } from './components';
 
 import { PitchDetector } from 'pitchy';
 import { ClosestNoteData, findClosestNote } from '~/utils/AudioProcessing';
-import { InstrumentType, InstrumentTunings } from '~/models/Instruments';
+import { InstrumentType, InstrumentTunings } from '~/models/instruments';
 
 import { TunerTabs } from './components/';
 
@@ -282,7 +282,7 @@ function GuitarTuner({ t }: any) {
                     </div>
                 </div>
                 <Button className={isPitchDetectionRunning ? 'bg-lime-600 hover:bg-lime-500 lg:hidden z-10 mb-10' : 'lg:hidden z-10 mb-10'} onClick={togglePitchDetection}>{isPitchDetectionRunning ? 'STOP' : 'Click to start tuning'}</Button>
-                <div className='flex items-center flex-col-reverse lg:flex-col z-10'>
+                <div className='flex items-center flex-col-reverse lg:flex-col z-10 lg:mb-[30px]'>
                     <TunerTabs
                         selectedInstrument={selectedInstrument}
                         setSelectedInstrument={setSelectedInstrument}

@@ -1,8 +1,8 @@
 // import Link from "next/link";
-import Image from 'next/image'
+// import Image from 'next/image'
 // import { CreatePost } from "~/app/_components/create-post";
-import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
+// import { getServerAuthSession } from "~/server/auth";
+// import { api } from "~/trpc/server";
 import styles from "./index.module.css";
 
 export default async function Home() {
@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
-      
+      Home
       {/* <AudioAnalyzer /> */}
       {/* <div className={styles.container}>
         <h1 className={styles.title}>

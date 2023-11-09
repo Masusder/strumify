@@ -8,7 +8,7 @@ import LocalizationButton from './Localization/localization-button';
 function Header({
     params: { lang },
   }: {
-    params: { lang: string }
+    params: { lang: Locale }
   }) {
     return (
         <header className='flex pr-2 pl-2 h-14 bg-zinc-800 items-center sticky top-0 z-50'>

@@ -4,7 +4,6 @@ import React from 'react';
 import { Button } from '~/components/ui/button';
 import { CircleFlag } from 'react-circle-flags';
 import { usePathname, useRouter } from 'next/navigation';
-import { Locale } from '~/i18n-config';
 import styles from '../header.module.css';
 
 import {
@@ -36,7 +35,7 @@ const languages = [
     { label: "Chinese", value: "zh", flagCode: "cn" }
 ] as const
 
-function LocalizationButton({ lang }: {lang: string}) {
+function LocalizationButton({ lang }: { lang: Locale }) {
     const router = useRouter();
     const pathName = usePathname();
 
@@ -51,7 +50,7 @@ function LocalizationButton({ lang }: {lang: string}) {
         return "";
     }
 
-    const changeLanguage = (lang: string) => {
+    const changeLanguage = (lang: Locale) => {
         if (!pathName) router.push('/');
         const segments = pathName.split('/');
         segments[1] = lang;

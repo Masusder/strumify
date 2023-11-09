@@ -14,23 +14,34 @@ const inter = Inter({
 });
 
 import { i18n } from '../../i18n-config'
+import { getMetadataLocales } from "~/get-dictionary";
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }))
 }
 
-export const metadata = {
-  title: "Strumify",
-  description: "Strumify - your ultimate guitar companion for creating and sharing tabs, chords, and melodies, making music creation a breeze for guitar enthusiasts of all levels.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
-};
+type MetadataParams = {
+  params: {
+    lang: Locale
+  }
+}
 
-export default function RootLayout({
+// or Dynamic metadata
+export async function generateMetadata({ params }: MetadataParams) {
+  const t = await getMetadataLocales(params.lang)
+  return {
+    title: "Strumify",
+    description: t.main.description,
+    icons: [{ rel: "icon", url: "/favicon.ico" }],
+  }
+}
+
+export default async function RootLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { lang: string }
+  params: { lang: Locale }
 }) {
   return (
     <html suppressHydrationWarning lang={params.lang}>

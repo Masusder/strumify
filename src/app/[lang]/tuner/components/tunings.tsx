@@ -1,5 +1,4 @@
-import React from 'react';
-import { EnumValues } from 'zod';
+import React, {useState} from 'react';
 import {
     Card,
     CardContent,
@@ -8,13 +7,15 @@ import {
     CardTitle,
 } from "~/components/ui/card";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { InstrumentTunings, InstrumentType, InstrumentTuningItem } from '~/models/Instruments';
 
+import TuningSearchbar from './TabItems/tuning-searchbar';
+
+import { TInstrumentTunings, InstrumentTunings, InstrumentType, InstrumentTuningItem } from '~/models/instruments';
 import { MusicUtilities } from '~/utils/AudioProcessing/musicUtilities';
 
-function mapTuningItems(selectedInstrument: InstrumentType, tuningIndex: number, setTuningIndex: React.Dispatch<React.SetStateAction<number>>) {
-    const tunings = InstrumentTunings[selectedInstrument];
-    return tunings.map((tuningItem, i) => <TuningItem key={i} tuningItem={tuningItem} index={i} tuningIndex={tuningIndex} setTuningIndex={setTuningIndex} />);
+function mapTuningItems(selectedInstrument: InstrumentType, tuningIndex: number, setTuningIndex: React.Dispatch<React.SetStateAction<number>>, instrumentTunings: TInstrumentTunings) {
+    const tunings = instrumentTunings[selectedInstrument];
+    return tunings.map((tuningItem, i) => <TuningItem key={i} tuningItem={tuningItem} index={tuningItem.index} tuningIndex={tuningIndex} setTuningIndex={setTuningIndex} />);
 }
 
 interface TuningsProps {
@@ -24,6 +25,8 @@ interface TuningsProps {
 }
 
 function Tunings({ selectedInstrument, tuningIndex, setTuningIndex }: TuningsProps) {
+    const [instrumentTunings, setInstrumentTunings] = useState<TInstrumentTunings>(InstrumentTunings)
+
     return (
         <Card>
             <CardHeader>
@@ -33,9 +36,10 @@ function Tunings({ selectedInstrument, tuningIndex, setTuningIndex }: TuningsPro
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <ScrollArea className="h-[200px] w-auto rounded-md border p-3">
+                <TuningSearchbar selectedInstrument={selectedInstrument} setInstrumentTunings={setInstrumentTunings} />
+                <ScrollArea className="h-[182px] w-auto rounded-md border p-3">
                     <div className='grid grid-cols-1 lg:grid-cols-2 grid-flow-row-dense gap-y-4 gap-x-2 items-center pt-1 pb-1'>
-                        {mapTuningItems(selectedInstrument, tuningIndex, setTuningIndex)}
+                        {mapTuningItems(selectedInstrument, tuningIndex, setTuningIndex, instrumentTunings)}
                     </div>
                 </ScrollArea>
             </CardContent>
@@ -67,7 +71,7 @@ function TuningItem({ tuningItem, tuningIndex, setTuningIndex, index }: TuningIt
 
     return (
         <button onClick={handleTuningChange} className={`${tuningIndex === index ? 'border-primary' : ''} flex flex-col gap-1 p-2 items-center hover:border-primary rounded-lg border-[1px] border-transparent bo hover:border-[1px] cursor-pointer transition-colors`}>
-            {tuningName}
+            <div className={tuningIndex === index ? "[text-shadow:_0_0_7.5px_rgb(225_29_72_/_100%)]" : ""}>{tuningName}</div>
             <div className='flex flex-row gap-1'>
                 {tuningNoteElements}
             </div>

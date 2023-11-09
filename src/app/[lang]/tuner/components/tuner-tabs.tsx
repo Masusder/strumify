@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
@@ -11,8 +12,9 @@ import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Switch } from "~/components/ui/switch";
 import Tunings from './tunings';
 import InstrumentItem from './TabItems/instrument-item';
+import TuningSearchbar from './TabItems/tuning-searchbar';
 
-import { InstrumentType } from '~/models/Instruments';
+import { TInstrumentTunings, InstrumentTunings, InstrumentType } from '~/models/instruments';
 import styles from '~/app/[lang]/tuner/tuner.module.css';
 
 interface TabsProps {

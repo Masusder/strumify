@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { InstrumentType } from '~/models/Instruments';
+import { InstrumentType } from '~/models/instruments';
 
 type InstrumentItemProps = {
     instrumentName: string;
