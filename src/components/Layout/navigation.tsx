@@ -11,6 +11,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "~/components/ui/navigation-menu";
+import { MenuSquare } from "lucide-react";
 import styles from './navigation.module.css';
 
 export function NavigationMenuCustom({ lang }: { lang: string }) {
@@ -18,7 +19,10 @@ export function NavigationMenuCustom({ lang }: { lang: string }) {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger>Get started</NavigationMenuTrigger>
+          <NavigationMenuTrigger>
+            <span className="hidden md:inline">Get started</span>
+            <span className="md:hidden"><MenuSquare /></span>
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-6 w-[200px] md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">

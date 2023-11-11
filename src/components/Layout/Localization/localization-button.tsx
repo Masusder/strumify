@@ -62,7 +62,7 @@ function LocalizationButton({ lang }: { lang: Locale }) {
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button className=' w-[60px] h-[36px]' size="icon">
+                <Button className='w-auto h-[36px]'>
                     <CircleFlag alt='Country flag' countryCode={checkLanguageCode()} width={24} height="auto" className={styles.dropShadow} />
                     <ChevronsUpDown className="ml-1 h-4 w-4 shrink-0 opacity-50" />
                 </Button>

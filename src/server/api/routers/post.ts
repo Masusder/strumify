@@ -1,5 +1,4 @@
 import { z } from "zod";
-import * as Pitchfinder from "pitchfinder";
 
 import {
   createTRPCRouter,

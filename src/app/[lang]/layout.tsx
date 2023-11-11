@@ -6,6 +6,7 @@ import { headers } from "next/headers";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ThemeProvider } from "~/components/Theme/theme-provider";
+import { LangProvider } from "~/contexts/LangContext";
 
 import { Header } from "~/components/Layout";
 
@@ -28,7 +29,7 @@ type MetadataParams = {
 
 // or Dynamic metadata
 export async function generateMetadata({ params }: MetadataParams) {
-  const t = await getMetadataLocales(params.lang)
+  const t = await getMetadataLocales(params.lang);
   return {
     title: "Strumify",
     description: t.main.description,
@@ -47,15 +48,17 @@ export default async function RootLayout({
     <html suppressHydrationWarning lang={params.lang}>
       <body className={inter.className}>
         <TRPCReactProvider headers={headers()}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <Header params={params} />
-            {children}
-          </ThemeProvider>
+          <LangProvider initialLang={params.lang}>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <Header params={params} />
+              {children}
+            </ThemeProvider>
+          </LangProvider>
         </TRPCReactProvider>
       </body>
     </html>
