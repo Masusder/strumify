@@ -62,6 +62,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    tunings       Tuning[]
 }
 
 model VerificationToken {
@@ -70,4 +71,22 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+enum InstrumentType {
+  acoustic
+  electric
+  bass
+  ukulele
+}
+
+model Tuning {
+    id          Int      @id @default(autoincrement())
+    name        String
+    instrument  InstrumentType 
+    noteIndexes   Json
+    createdBy   User     @relation(fields: [createdById], references: [id])
+    createdById String
+
+    @@index([createdById])
 }

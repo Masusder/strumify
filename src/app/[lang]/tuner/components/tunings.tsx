@@ -32,7 +32,7 @@ function Tunings({ selectedInstrument, tuningIndex, setTuningIndex }: TuningsPro
             <CardHeader>
                 <CardTitle>Select tuning</CardTitle>
                 <CardDescription>
-                    Select tuning from available options or create your own custom tuning.
+                    Select tuning from available options or create your own in custom tunings tab.
                 </CardDescription>
             </CardHeader>
             <CardContent>

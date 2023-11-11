@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+// UI
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import {
     Card,
@@ -10,12 +11,14 @@ import {
 } from "~/components/ui/card";
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Switch } from "~/components/ui/switch";
-import Tunings from './tunings';
-import InstrumentItem from './TabItems/instrument-item';
-import TuningSearchbar from './TabItems/tuning-searchbar';
-
-import { TInstrumentTunings, InstrumentTunings, InstrumentType } from '~/models/instruments';
 import styles from '~/app/[lang]/tuner/tuner.module.css';
+
+// Components
+import { InstrumentItem, CustomTunings } from './TabItems';
+import Tunings from './tunings';
+
+// Other
+import { InstrumentType } from '~/models/instruments';
 
 interface TabsProps {
     selectedInstrument: InstrumentType;
@@ -30,10 +33,11 @@ interface TabsProps {
 
 function TunerTabs({ selectedInstrument, setSelectedInstrument, tuningIndex, setTuningIndex, targetedNoteIndex, guitarData, changeTuningMode }: TabsProps) {
     return (
-        <Tabs defaultValue="instruments" className="max-w-[350px] my-4 lg:max-w-[500px]">
-            <TabsList style={{ display: "flex", width: "min-content", margin: "auto" }}>
+        <Tabs defaultValue="instruments" className="max-w-[325px] sm:max-w-[400px] my-4 lg:max-w-[500px]">
+            <TabsList style={{ display: "flex", width: "fit-content", flexWrap: "wrap", height: "auto", margin: "auto" }}>
                 <TabsTrigger value="instruments">Instruments</TabsTrigger>
-                <TabsTrigger value="tuning">Tuning</TabsTrigger>
+                <TabsTrigger value="tunings">Tunings</TabsTrigger>
+                <TabsTrigger value="custom-tunings">Custom tunings</TabsTrigger>
                 <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
             <TabsContent value="instruments">
@@ -89,11 +93,16 @@ function TunerTabs({ selectedInstrument, setSelectedInstrument, tuningIndex, set
                     </CardContent>
                 </Card>
             </TabsContent>
-            <TabsContent value="tuning">
+            <TabsContent value="tunings">
                 <Tunings
                     selectedInstrument={selectedInstrument}
                     tuningIndex={tuningIndex}
                     setTuningIndex={setTuningIndex}
+                />
+            </TabsContent>
+            <TabsContent value="custom-tunings">
+                <CustomTunings
+                    selectedInstrument={selectedInstrument}
                 />
             </TabsContent>
             <TabsContent value="settings">
