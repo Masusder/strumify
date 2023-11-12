@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from '../tuner.module.css';
 
+import { cn } from '~/lib/utils';
+
 interface TuningNoteButtonProps {
   note: string;
   index: number;
@@ -58,9 +60,11 @@ const TuningNoteButton: React.FC<TuningNoteButtonProps> = ({
         : '',
   };
 
-  const className = `${styles.tuningNote} ${styles[`tuningNote${index + 1}`]} ${styles[selectedInstrument]} ${
+  const className = cn(styles.tuningNote,
+    styles[`tuningNote${index + 1}`],
+    styles[selectedInstrument],
     targetedNoteIndex === index ? styles.noteTargetedGrid : ''
-  }`;
+  );
 
   return (
     <button key={index} onClick={() => changeTuningMode(index)} style={buttonStyle} className={className}>

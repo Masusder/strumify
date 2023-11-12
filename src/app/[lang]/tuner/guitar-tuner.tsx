@@ -13,8 +13,14 @@ import { InstrumentType, InstrumentTunings } from '~/models/instruments';
 import { TunerTabs } from './components/';
 
 import { MusicUtilities } from '~/utils/AudioProcessing/musicUtilities';
+import { Session } from 'next-auth';
 
-function GuitarTuner({ t }: any) {
+interface GuitarTunerProps {
+    t: any;
+    session: Session | null;
+}
+
+function GuitarTuner({ t, session }: GuitarTunerProps) {
     console.log(t)
     const [detectedFrequency, setDetectedFrequency] = useState<number>(-1);
     const [cents, setCents] = useState<number>(0);
@@ -292,6 +298,7 @@ function GuitarTuner({ t }: any) {
                         targetedNoteIndex={targetedNoteIndex}
                         setTargetedNoteIndex={setTargetedNoteIndex}
                         changeTuningMode={changeTuningMode}
+                        session={session}
                     />
                     <Button className={isPitchDetectionRunning ? 'bg-lime-600 hover:bg-lime-500 mt-3 hidden lg:block' : 'mt-3 hidden lg:block'} onClick={togglePitchDetection}>{isPitchDetectionRunning ? 'STOP' : 'Click to start tuning'}</Button>
                 </div>

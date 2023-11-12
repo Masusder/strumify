@@ -9,6 +9,7 @@ import { ThemeProvider } from "~/components/Theme/theme-provider";
 import { LangProvider } from "~/contexts/LangContext";
 
 import { Header } from "~/components/Layout";
+import { Toaster } from "~/components/ui/toaster"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -57,6 +58,7 @@ export default async function RootLayout({
             >
               <Header params={params} />
               {children}
+              <Toaster />
             </ThemeProvider>
           </LangProvider>
         </TRPCReactProvider>

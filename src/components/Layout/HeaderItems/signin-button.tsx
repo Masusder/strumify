@@ -3,26 +3,32 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { Button } from '~/components/ui/button';
-
+// UI
 import { UserCircle } from "lucide-react"
 
-function ProfileButton({ session, lang, nextUrl }: any) {
+// Types
+import { Session } from 'next-auth';
+
+interface ProfileButtonProps {
+  session: Session | null;
+  lang: Locale;
+}
+
+function ProfileButton({ session, lang }: ProfileButtonProps) {
   const router = useRouter();
 
-  const signIn = () => {
+  const signIn = (): void => {
     if (!session) {
-      router.push(`/auth/sign-in?callbackUrl=${nextUrl}/${lang}`);
+      router.push(`/auth/sign-in`);
     } else {
       router.push(`/${lang}/profile`)
     }
   }
 
-  let profileAvatar = null;
+  let profileAvatar: string | null | undefined = null;
   if (session) {
     profileAvatar = session.user.image;
   }
-  console.log(session)
 
   return (
     <button className='w-[56px] h-[56px]'

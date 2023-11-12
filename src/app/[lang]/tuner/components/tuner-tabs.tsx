@@ -20,6 +20,9 @@ import Tunings from './tunings';
 // Other
 import { InstrumentType } from '~/models/instruments';
 
+// Types
+import { Session } from 'next-auth';
+
 interface TabsProps {
     selectedInstrument: InstrumentType;
     setSelectedInstrument: React.Dispatch<React.SetStateAction<InstrumentType>>;
@@ -29,9 +32,10 @@ interface TabsProps {
     targetedNoteIndex: number;
     setTargetedNoteIndex: React.Dispatch<React.SetStateAction<number>>;
     changeTuningMode: (noteIndex: number) => void;
+    session: Session | null;
 }
 
-function TunerTabs({ selectedInstrument, setSelectedInstrument, tuningIndex, setTuningIndex, targetedNoteIndex, guitarData, changeTuningMode }: TabsProps) {
+function TunerTabs({ selectedInstrument, setSelectedInstrument, tuningIndex, setTuningIndex, targetedNoteIndex, guitarData, changeTuningMode, session }: TabsProps) {
     return (
         <Tabs defaultValue="instruments" className="max-w-[325px] sm:max-w-[400px] my-4 lg:max-w-[500px]">
             <TabsList style={{ display: "flex", width: "fit-content", flexWrap: "wrap", height: "auto", margin: "auto" }}>
@@ -103,6 +107,7 @@ function TunerTabs({ selectedInstrument, setSelectedInstrument, tuningIndex, set
             <TabsContent value="custom-tunings">
                 <CustomTunings
                     selectedInstrument={selectedInstrument}
+                    session={session}
                 />
             </TabsContent>
             <TabsContent value="settings">
