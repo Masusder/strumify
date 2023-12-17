@@ -1,3 +1,3 @@
-import { convertAccidentals } from "./convertAccidentals";
+import { switchAccidentals } from "./switchAccidentals";
 
-export { convertAccidentals };
+export { switchAccidentals };

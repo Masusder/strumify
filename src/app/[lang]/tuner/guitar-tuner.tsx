@@ -106,10 +106,12 @@ function GuitarTuner({ t, session }: GuitarTunerProps) {
                 if (clarity > clarityThreshold) {
                     const noteData: ClosestNoteData = findClosestNote(pitch, guitarData.tuningNotation, guitarData.tuningFrequency, targetedNoteIndex);
 
+                    const midi = MusicUtilities.frequencyToMIDINote(Math.round(pitch))
                     setDetectedFrequency(pitch);
                     setDetectedNote(noteData.noteName);
 
                     tuneGuitar(pitch, noteData.closestNoteIndex);
+                    console.log('MIDI value:', midi)
                     console.log('Detected note:', noteData.noteName);
                     console.log('Detected pitch:', pitch);
                     console.log('Clarity:', clarity);

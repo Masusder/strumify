@@ -8,7 +8,7 @@ export class MusicUtilities {
 
     // Convert a frequency to a MIDI note number.
     static frequencyToMIDINote(currentFrequency: number, referenceFrequency: number = 440): number {
-        return 12.0 * Math.log(currentFrequency / referenceFrequency) * 0.0577622650 + 69;
+        return 12.0 * Math.log2(currentFrequency / referenceFrequency) + 69;
     }
 
     // Convert a MIDI note number to a frequency.
@@ -22,15 +22,21 @@ export class MusicUtilities {
         });
     }
 
-    static midiNoteToNoteString(midiNote: number): string | null {
+    static midiNoteToNoteString(midiNote: number, includeOctave: boolean = false): string {
         if (midiNote >= 0) {
             const note = noteStrings[midiNote % 12];
-    
+            let octave: string = "";
+            if (includeOctave) {
+                octave = (Math.floor(midiNote / 12) - 1).toString();
+            }
+
+            const noteName = note + octave;
+
             if (note) {
-                return note;
+                return noteName
             }
         }
 
-        return null;
+        return "";
     }
 }

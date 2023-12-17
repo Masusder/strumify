@@ -12,15 +12,11 @@ import {
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { Switch } from "~/components/ui/switch";
 import styles from '~/app/[lang]/tuner/tuner.module.css';
-
 // Components
-import { InstrumentItem, CustomTunings } from './TabItems';
+import { InstrumentItem } from './TabItems';
 import Tunings from './tunings';
-
-// Other
-import { InstrumentType } from '~/models/instruments';
-
 // Types
+import { InstrumentType } from '~/models/instruments';
 import { Session } from 'next-auth';
 
 interface TabsProps {
@@ -41,7 +37,6 @@ function TunerTabs({ selectedInstrument, setSelectedInstrument, tuningIndex, set
             <TabsList style={{ display: "flex", width: "fit-content", flexWrap: "wrap", height: "auto", margin: "auto" }}>
                 <TabsTrigger value="instruments">Instruments</TabsTrigger>
                 <TabsTrigger value="tunings">Tunings</TabsTrigger>
-                <TabsTrigger value="custom-tunings">Custom tunings</TabsTrigger>
                 <TabsTrigger value="settings">Settings</TabsTrigger>
             </TabsList>
             <TabsContent value="instruments">
@@ -102,11 +97,6 @@ function TunerTabs({ selectedInstrument, setSelectedInstrument, tuningIndex, set
                     selectedInstrument={selectedInstrument}
                     tuningIndex={tuningIndex}
                     setTuningIndex={setTuningIndex}
-                />
-            </TabsContent>
-            <TabsContent value="custom-tunings">
-                <CustomTunings
-                    selectedInstrument={selectedInstrument}
                     session={session}
                 />
             </TabsContent>

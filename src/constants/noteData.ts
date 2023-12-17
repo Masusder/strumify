@@ -1,5 +1,8 @@
 export const noteStrings: string[] = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
+export const notesSharps: string[] = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+export const notesFlats: string[] = ["C", "Cb", "D", "Db", "E", "F", "Fb", "G", "Gb", "A", "Ab", "B"];
+
 export const noteFrequencies: number[] = [
     16.35, 17.32, 18.35, 19.45, 20.60, 21.83, 23.12, 24.50, 25.96, 27.50, 29.14, 30.87
 ];

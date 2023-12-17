@@ -27,7 +27,7 @@ function TuningSearchbar({ selectedInstrument, setInstrumentTunings }: TuningSea
     }
 
     return (
-        <Input type="search" onChange={(e) => filterTuningsByTuningName(e.target.value)} placeholder="Search tuning" className='mb-3' />
+        <Input type="search" name='tuningSearch' onChange={(e) => filterTuningsByTuningName(e.target.value)} placeholder="Search tuning" />
     );
 }
 

@@ -4,13 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useToast } from "~/components/ui/use-toast";
 // UI
 import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "~/components/ui/card";
-import {
     Popover,
     PopoverContent,
     PopoverTrigger,
@@ -24,16 +17,16 @@ import { Check } from "lucide-react";
 import { Skeleton } from "~/components/ui/skeleton"
 import { Button } from '~/components/ui/button';
 import styles from '../../tuner.module.css';
-
-// Other
-import { InstrumentType } from '~/models/instruments';
+// Data
 import { noteStrings } from '~/constants/noteData';
+import { CustomTuningOptions } from '~/models/instruments';
+// Lib
+import { MusicUtilities } from '~/utils/AudioProcessing/musicUtilities';
 import { cn } from '~/lib/utils';
-
 import { api } from '~/trpc/react';
-
 // Types
 import { Session } from 'next-auth';
+import { InstrumentType } from '~/models/instruments';
 
 interface CustomTuningsProps {
     selectedInstrument: InstrumentType;
@@ -71,20 +64,12 @@ function CustomTunings({ selectedInstrument, session }: CustomTuningsProps) {
 
     if (!session) {
         return (
-            <Card>
-                <CardHeader>
-                    <CardTitle>Create custom tunings</CardTitle>
-                    <CardDescription>
-                        Create your own custom tunings.
-                    </CardDescription>
-                </CardHeader>
-                <CardContent className='flex justify-center flex-col items-center'>
-                    You need to sign-in in order to create your own tunings for free.
-                    <Button className='mt-2' onClick={signIn}>
-                        Sign-in
-                    </Button>
-                </CardContent>
-            </Card>
+            <div className='flex justify-center flex-col items-center'>
+                You need to sign-in in order to create your own tunings for free.
+                <Button className='mt-2' onClick={signIn}>
+                    Sign-in
+                </Button>
+            </div>
         );
     }
 
@@ -175,7 +160,7 @@ function CustomTunings({ selectedInstrument, session }: CustomTuningsProps) {
 
         if (isTuningValid) {
             toast({
-                variant: "default",
+                variant: "success",
                 title: "Saved tuning successfully.",
                 description: "Check Tunings tab, your own tuning should now appear there.",
             })
@@ -183,17 +168,7 @@ function CustomTunings({ selectedInstrument, session }: CustomTuningsProps) {
     }
 
     console.log(selectedNotesIndexes)
-
-    return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Create custom tunings</CardTitle>
-                <CardDescription>
-                    Create your own custom tunings.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                {/* {isLoading &&
+    {/* {isLoading &&
                     <div className="flex items-center space-x-4">
                         <Skeleton className="h-12 w-12 rounded-full" />
                         <div className="space-y-2">
@@ -203,50 +178,60 @@ function CustomTunings({ selectedInstrument, session }: CustomTuningsProps) {
                     </div>
                 }
                 {isError && "Error: Failed to load tunings"} */}
-                {/* {JSON.stringify(userTunings)} */}
-                <div className='pl-2 pr-2 pt-0 flex flex-col items-center justify-center gap-3'>
-                    <div className="flex w-full max-w-sm items-center space-x-2">
-                        <Input ref={nameInput} type="input" placeholder="Tuning name" />
-                        <Button onClick={() => saveTuning()} type="submit">Save tuning</Button>
-                    </div>
-                    <div className='flex gap-1'>
-                        {selectedNotesIndexes.map((noteIndex: number, i: number) => {
-                            return (
-                                <Popover key={i}>
-                                    <PopoverTrigger asChild>
-                                        <button className={`${styles.tuningNote}`}>{noteIndex !== -1 ? noteStrings[noteIndex] : <div className='text-[9px]'>{`String ${i + 1}`}</div>}</button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-[150px] p-0">
-                                        <Command className='grid grid-cols-2 p-1'>
-                                            {noteStrings.map((note: string, stringIndex: number) => (
-                                                <CommandItem
-                                                    className='cursor-pointer'
-                                                    value={note}
-                                                    key={note}
-                                                    onSelect={() => {
-                                                        changeNote(stringIndex, i)
-                                                    }}
-                                                >
-                                                    <Check
-                                                        className={cn(
-                                                            "mr-2 h-4 w-4",
-                                                            stringIndex === selectedNotesIndexes[i]
-                                                                ? "opacity-100"
-                                                                : "opacity-0"
-                                                        )}
-                                                    />
-                                                    {note}
-                                                </CommandItem>
-                                            ))}
-                                        </Command>
-                                    </PopoverContent>
-                                </Popover>
-                            );
-                        })}
-                    </div>
+    {/* {JSON.stringify(userTunings)} */ }
+
+    return (
+        <div className='pl-2 pr-2 pt-0 flex flex-col items-center justify-center gap-3 mt-4'>
+            <div className="flex w-full max-w-sm items-center space-x-2">
+                <Input name='tuningNameInput' ref={nameInput} type="input" placeholder="Tuning name" />
+                <Button onClick={() => saveTuning()} type="submit">Save tuning</Button>
+            </div>
+            <div className='flex'>
+            {CustomTuningOptions.acoustic.map((midiValues: number[], stringIndex: number) => (
+                <div key={stringIndex}>
+                    {midiValues.map(midiValue => {
+                        const note = MusicUtilities.midiNoteToNoteString(midiValue, true)
+                        return <div key={midiValue} className='mr-2'>{note}</div>;
+                    })}
                 </div>
-            </CardContent>
-        </Card>
+            ))}
+            </div>
+            <div className='flex gap-1'>
+                {selectedNotesIndexes.map((noteIndex: number, i: number) => {
+                    return (
+                        <Popover key={i}>
+                            <PopoverTrigger asChild>
+                                <button className={`${styles.tuningNote}`}>{noteIndex !== -1 ? noteStrings[noteIndex] : <div className='text-[9px]'>{`String ${i + 1}`}</div>}</button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[150px] p-0">
+                                <Command className='grid grid-cols-2 p-1'>
+                                    {noteStrings.map((note: string, stringIndex: number) => (
+                                        <CommandItem
+                                            className='cursor-pointer'
+                                            value={note}
+                                            key={note}
+                                            onSelect={() => {
+                                                changeNote(stringIndex, i)
+                                            }}
+                                        >
+                                            <Check
+                                                className={cn(
+                                                    "mr-2 h-4 w-4",
+                                                    stringIndex === selectedNotesIndexes[i]
+                                                        ? "opacity-100"
+                                                        : "opacity-0"
+                                                )}
+                                            />
+                                            {note}
+                                        </CommandItem>
+                                    ))}
+                                </Command>
+                            </PopoverContent>
+                        </Popover>
+                    );
+                })}
+            </div>
+        </div>
     );
 }
 

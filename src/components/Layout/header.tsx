@@ -16,7 +16,7 @@ async function Header({
     const session = await getServerAuthSession();
 
     return (
-        <header className='flex pr-2 pl-2 h-14 bg-zinc-800 items-center sticky top-0 z-50'>
+        <header className='flex pr-2 pl-2 h-14 bg-zinc-800 items-center sticky top-0 z-50 border-b-[1px] border-primary/90'>
             <div className='w-full h-auto'>
                 <Link href={`/${lang}`} className='block' style={{ width: "49px", height: "45px" }}>
                     <Image src="/assets/images/Logo/StrumifyLogoIcon.png" priority className='drop-shadow-md' alt="Logo" width={48} height={45} />

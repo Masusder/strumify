@@ -6,7 +6,7 @@ async function Profile() {
 
     return (
         <div>
-            This is your profile
+            This is your profile<br/>
             {session && <span>Logged in as {session.user?.name}</span>}
         </div>
     );

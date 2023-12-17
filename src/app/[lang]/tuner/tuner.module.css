@@ -190,3 +190,31 @@
 .tuningNote4.ukulele {
     grid-area: 2 / 2 / 2 / 2;
 }
+
+.blurAnimation {
+    animation: blurAnimation 0.5s ease-in-out;
+    --tw-backdrop-blur: blur(10px);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  }
+
+  .textAnimation {
+    animation: textAnimation 0.5s ease-in-out;
+  }
+
+@keyframes blurAnimation {
+    from {
+      backdrop-filter: blur(0);
+    }
+    to {
+      backdrop-filter: blur(10px);
+    }
+  }
+
+  @keyframes textAnimation {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
